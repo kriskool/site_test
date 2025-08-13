@@ -1,10 +1,8 @@
-yaml
-
 name: Quarto Publish
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
 
 permissions:
   contents: write
@@ -14,11 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.7.33
+
       - name: Render site
         run: quarto render
+
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: _site
+          publish_branch: gh-pages
+
